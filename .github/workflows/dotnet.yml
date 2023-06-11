@@ -53,7 +53,7 @@ jobs:
         with:
           files: |
             vsmodtools/vsmodtools-linux-x64
-            vsmodtools/vsmodtools-osx.x64
+            vsmodtools/vsmodtools-osx-x64
             vsmodtools/vsmodtools-win-x64.exe
 
 permissions:
