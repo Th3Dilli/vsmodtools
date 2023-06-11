@@ -47,6 +47,6 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            vsmodtools_testing-linux-x64
-            vsmodtools_testing-win-x64
-            vsmodtools_testing-osx-x64
+            vsmodtools_testing-linux-x64/vsmodtools/bin/Release/net7.0/linux-x64/publish/vsmodtools
+            vsmodtools_testing-osx-x64/vsmodtools/bin/Release/net7.0/osx-x64/publish/vsmodtools
+            vsmodtools_testing-win-x64/vsmodtools/bin/Release/net7.0/win-x64/publish/vsmodtools.exe
