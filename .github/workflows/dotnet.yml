@@ -11,10 +11,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        runtime: ['win-x64', 'linux-x64', 'osx-x64']
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -28,21 +24,22 @@ jobs:
         run: dotnet build --configuration Release
 
       - name: Publish
-        run: dotnet publish --configuration Release --runtime ${{ matrix.runtime }} --self-contained false
+        run: |
+          dotnet publish --configuration Release --runtime osx-x64 --self-contained false
+          dotnet publish --configuration Release --runtime linux-x64 --self-contained false
+          dotnet publish --configuration Release --runtime win-x64 --self-contained false
 
       - name: Rename Binary
         run: |
           mkdir Release
-          if [[ "${{ matrix.runtime }}" == "win-x64" ]]; then
-          mv vsmodtools/bin/Release/net7.0/${{ matrix.runtime }}/publish/vsmodtools.exe Release/vsmodtools-${{ matrix.runtime }}.exe
-          else
-          mv vsmodtools/bin/Release/net7.0/${{ matrix.runtime }}/publish/vsmodtools Release/vsmodtools-${{ matrix.runtime }}
-          fi
+          mv vsmodtools/bin/Release/net7.0/win-x64/publish/vsmodtools.exe Release/vsmodtools-win-x64.exe
+          mv vsmodtools/bin/Release/net7.0/linux-x64}/publish/vsmodtools Release/vsmodtools-linux-x64
+          mv vsmodtools/bin/Release/net7.0/osx-x64/publish/vsmodtools Release/vsmodtools-osx-x64
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: vsmodtools-${{ matrix.runtime }}
-          path: "**/bin/Release/net7.0/${{ matrix.runtime }}/publish/"
+          name: vsmodtools
+          path: Release/
 
   release:
     needs: [build]
@@ -55,7 +52,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            Release/publish/vsmodtools-linux-x64
+            Release/vsmodtools-linux-x64
             Release/vsmodtools-osx.x64
             Release/vsmodtools-win-x64.exe
 
