@@ -28,12 +28,12 @@ jobs:
         run: dotnet build --configuration Release
 
       - name: Publish
-        run: dotnet publish --configuration Release --runtime ${{ matrix.runtime }} --self-contained true /p:PublishSingleFile=true
+        run: dotnet publish --configuration Release --runtime ${{ matrix.runtime }}
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: vsmodtools-${{ matrix.runtime }}
+          name: vsmodtools_testing-${{ matrix.runtime }}
           path: "**/bin/Release/net7.0/${{ matrix.runtime }}/publish/"
 
   release:
@@ -41,34 +41,14 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        runtime: ['win-x64', 'linux-x64', 'osx-x64']
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
       - name: Download artifacts
         uses: actions/download-artifact@v2
-        with:
-          name: vsmodtools-${{ matrix.runtime }}
 
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Release
+        uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          draft: false
-          prerelease: false
-
-      - name: Upload Release Asset
-        id: upload-release-asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./vsmodtools-${{ matrix.runtime }}/YourProjectName/bin/Release/net7.0/${{ matrix.runtime }}/publish/YourProjectName.exe
-          asset_name: YourProjectName-${{ matrix.runtime }}.exe
-          asset_content_type: application/octet-stream
+          files: |
+            vsmodtools/bin/Release/net7.0/linux-x64/publish/vsmodtools
+            vsmodtools/bin/Release/net7.0/win-x64/publish/vsmodtools.exe
+            vsmodtools/bin/Release/net7.0/osx-x64/publish/vsmodtools
