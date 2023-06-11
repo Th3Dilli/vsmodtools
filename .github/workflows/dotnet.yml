@@ -47,7 +47,17 @@ jobs:
     steps:
       - name: Download artifacts
         uses: actions/download-artifact@v2
-
+        
+      - name: List files in the workspace
+        run: |
+          ls -la
+          ls -la vsmodtools
+          ls -la vsmodtools/
+          ls -la vsmodtools/vsmodtools
+          ls -la vsmodtools/vsmodtools/Release
+          ls -la vsmodtools/Release
+          ls -la Release
+        
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
