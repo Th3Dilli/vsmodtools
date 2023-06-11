@@ -48,23 +48,13 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@v2
         
-      - name: List files in the workspace
-        run: |
-          ls -la
-          ls -la vsmodtools
-          ls -la vsmodtools/
-          ls -la vsmodtools/vsmodtools
-          ls -la vsmodtools/vsmodtools/Release
-          ls -la vsmodtools/Release
-          ls -la Release
-        
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            vsmodtools/vsmodtools/Release/vsmodtools-linux-x64
-            vsmodtools/vsmodtools/Release/vsmodtools-osx.x64
-            vsmodtools/vsmodtools/Release/vsmodtools-win-x64.exe
+            vsmodtools/vsmodtools-linux-x64
+            vsmodtools/vsmodtools-osx.x64
+            vsmodtools/vsmodtools-win-x64.exe
 
 permissions:
   contents: write
