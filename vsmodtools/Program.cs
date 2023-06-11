@@ -1,9 +1,4 @@
 ﻿using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace vsmodtools
 {
@@ -38,12 +33,12 @@ namespace vsmodtools
 
                 JObject latest = JObject.Parse(wc.DownloadString("http://api.vintagestory.at/devtools/latest.json"));
                 JToken versions = latest["versions"];
-                
+
                 foreach (var version in versions)
                 {
                     var otherVersion = new Version(version.Value<string>("id"));
 
-                    if(current.CompareTo(otherVersion) < 0)
+                    if (current.CompareTo(otherVersion) < 0)
                     {
                         ConsoleColor before = Console.ForegroundColor;
                         Console.ForegroundColor = ConsoleColor.Yellow;
@@ -80,11 +75,11 @@ namespace vsmodtools
                 return null;
 
             string name = args[0];
-            foreach(var command in commands)
+            foreach (var command in commands)
                 if (command.Name.Equals(name, StringComparison.OrdinalIgnoreCase))
                     return command;
 
-            if(!String.IsNullOrEmpty(name))
+            if (!String.IsNullOrEmpty(name))
                 Console.WriteLine("Command '{0}' could not be found!", name);
 
             return null;
@@ -96,8 +91,8 @@ namespace vsmodtools
 
             bool hasInitalCommands = args.Length > 0;
 
-            start:
-            if(args == null || args.Length == 0)
+        start:
+            if (args == null || args.Length == 0)
             {
                 Console.Write("> ");
                 string text = Console.ReadLine();
@@ -136,7 +131,7 @@ namespace vsmodtools
                     parmChars[index] = '\n';
             }
             string[] result = (new string(parmChars)).Split('\n');
-            for(int i = 0; i < result.Length; i++)
+            for (int i = 0; i < result.Length; i++)
             {
                 var line = result[i];
                 if (line.StartsWith("\"") && line.EndsWith("\""))
@@ -161,7 +156,7 @@ namespace vsmodtools
 
         public Command(string name, string description) : this(name, name, description)
         {
-            
+
         }
 
         public int CompareTo(object obj)
@@ -202,7 +197,7 @@ namespace vsmodtools
         public override bool Run(string[] args)
         {
             Console.WriteLine("List of all commands:");
-            foreach(var command in Program.commands)
+            foreach (var command in Program.commands)
                 Console.WriteLine(command.Syntax + " - " + command.Description);
             return false;
         }
@@ -242,5 +237,4 @@ namespace vsmodtools
         }
 
     }
-    
 }
