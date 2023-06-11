@@ -52,9 +52,9 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            Release/vsmodtools-linux-x64
-            Release/vsmodtools-osx.x64
-            Release/vsmodtools-win-x64.exe
+            vsmodtools/Release/vsmodtools-linux-x64
+            vsmodtools/Release/vsmodtools-osx.x64
+            vsmodtools/Release/vsmodtools-win-x64.exe
 
 permissions:
   contents: write
