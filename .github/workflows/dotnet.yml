@@ -32,10 +32,11 @@ jobs:
 
       - name: Rename Binary
         run: |
+          mkdir Release
           if [[ "${{ matrix.runtime }}" == "win-x64" ]]; then
-          mv vsmodtools/bin/Release/net7.0/${{ matrix.runtime }}/publish/vsmodtools.exe vsmodtools/bin/Release/net7.0/${{ matrix.runtime }}/publish/vsmodtools-${{ matrix.runtime }}.exe
+          mv vsmodtools/bin/Release/net7.0/${{ matrix.runtime }}/publish/vsmodtools.exe Release/vsmodtools-${{ matrix.runtime }}.exe
           else
-          mv vsmodtools/bin/Release/net7.0/${{ matrix.runtime }}/publish/vsmodtools vsmodtools/bin/Release/net7.0/${{ matrix.runtime }}/publish/vsmodtools-${{ matrix.runtime }}
+          mv vsmodtools/bin/Release/net7.0/${{ matrix.runtime }}/publish/vsmodtools Release/vsmodtools-${{ matrix.runtime }}
           fi
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
@@ -54,9 +55,9 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            vsmodtools-linux-x64/vsmodtools/bin/Release/net7.0/linux-x64/publish/vsmodtools
-            vsmodtools-osx-x64/vsmodtools/bin/Release/net7.0/osx-x64/publish/vsmodtools
-            vsmodtools-win-x64/vsmodtools/bin/Release/net7.0/win-x64/publish/vsmodtools.exe
+            Release/publish/vsmodtools-linux-x64
+            Release/vsmodtools-osx.x64
+            Release/vsmodtools-win-x64.exe
 
 permissions:
   contents: write
